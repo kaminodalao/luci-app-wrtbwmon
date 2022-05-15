@@ -24,17 +24,12 @@ jobs:
       run: |
         mkdir bin
         cp -rf ./luci-app-wrtbwmon ./bin/
-        docker pull openwrtorg/sdk:mipsel_24kc
-        docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows openwrtorg/sdk:mipsel_24kc /bin/sh /home/build/workflows/build.sh
+        docker pull openwrtorg/sdk:mipsel_24kc-21.02.2
+        docker run --rm -u root -v "$(pwd)"/bin/:/home/build/openwrt/bin -v ${{ github.workspace }}/.github/workflows:/home/build/workflows openwrtorg/sdk:mipsel_24kc-21.02.2 /bin/sh /home/build/workflows/build.sh
     - name: Upload app
       uses: actions/upload-artifact@v2
       with:
         name: luci-app-wrtbwmon
         path: ./bin/packages/mipsel_24kc/base/*wrtbwmon*
         if-no-files-found: error
-    - name: Upload Log
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: buildlog
-        path: bin/logs.tar.xz
+   
